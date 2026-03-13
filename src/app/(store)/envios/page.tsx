@@ -2,6 +2,8 @@ import { getPayloadClient } from '@/lib/payload'
 import { formatPrice } from '@/lib/formatPrice'
 import type { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Política de envíos',
   description: 'Información sobre envíos, costos y tiempos de entrega',

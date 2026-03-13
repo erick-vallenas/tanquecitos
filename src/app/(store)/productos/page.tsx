@@ -3,6 +3,8 @@ import { ProductCard } from '@/components/store/ProductCard'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Productos',
   description: 'Explora nuestra colección de productos para mascotas grandes',

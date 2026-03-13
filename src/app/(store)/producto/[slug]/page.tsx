@@ -3,6 +3,8 @@ import { ProductCard } from '@/components/store/ProductCard'
 import { ProductActions } from '@/components/store/ProductActions'
 import { ProductGallery } from '@/components/store/ProductGallery'
 import Link from 'next/link'
+
+export const dynamic = 'force-dynamic'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
