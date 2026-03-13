@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-primary: #2b6b6b;
+  --brand-primary-light: #3a8a8a;
+  --brand-primary-dark: #1e5a5a;
+  --brand-accent: #d88032;
+  --brand-bg: #faf9f7;
+}
+
+body {
+  color: #1a1a1a;
+  background: var(--brand-bg);
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-600 hover:bg-brand-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-white border-2 border-brand-600 text-brand-600 hover:bg-brand-50 font-medium py-3 px-6 rounded-lg transition-colors duration-200;
+  }
+
+  .btn-accent {
+    @apply bg-accent-500 hover:bg-accent-600 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200;
+  }
+
+  .badge {
+    @apply inline-block text-xs font-semibold px-2 py-1 rounded-full;
+  }
+
+  .badge-sale {
+    @apply badge bg-red-500 text-white;
+  }
+
+  .badge-new {
+    @apply badge bg-brand-500 text-white;
+  }
+
+  .badge-bestseller {
+    @apply badge bg-accent-500 text-white;
+  }
+
+  .badge-out-of-stock {
+    @apply badge bg-gray-400 text-white;
+  }
+
+  .skeleton {
+    @apply bg-gray-200 animate-pulse rounded-lg;
+  }
+}
+
+/* Animations */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
+}
+
+/* Hide scrollbar for category pills */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+  background-color: #2b6b6b;
+  color: white;
+}
+
+/* Prose styling for blog/content */
+.prose h2 {
+  @apply font-heading font-bold text-gray-900 mt-8 mb-4;
+}
+
+.prose h3 {
+  @apply font-heading font-semibold text-gray-900 mt-6 mb-3;
+}
+
+.prose a {
+  @apply text-brand-600 hover:text-brand-700 underline;
+}
+
+.prose ul, .prose ol {
+  @apply my-4;
+}
+
+.prose li {
+  @apply my-1;
+}
