@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { getPayloadClient } from '@/lib/payload'
 import { ProductCard } from '@/components/store/ProductCard'
 
+export const dynamic = 'force-dynamic'
+
 const categoryImages: Record<string, string> = {
   arneses: '/images/categories/arneses.jpg',
   collares: '/images/categories/collares.jpg',
