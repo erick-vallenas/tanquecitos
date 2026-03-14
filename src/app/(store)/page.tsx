@@ -16,48 +16,25 @@ const categoryImages: Record<string, string> = {
   higiene: '/images/categories/higiene.jpg',
 }
 
+const emptyResult = { docs: [], totalDocs: 0 }
+
 export default async function HomePage() {
-  const payload = await getPayloadClient()
+  let featuredProducts = emptyResult as any
+  let newProducts = emptyResult as any
+  let saleProducts = emptyResult as any
+  let categories = emptyResult as any
 
-  const featuredProducts = await payload.find({
-    collection: 'products',
-    where: {
-      isActive: { equals: true },
-      tags: { equals: 'featured' },
-    },
-    limit: 8,
-    sort: '-createdAt',
-  })
-
-  const newProducts = await payload.find({
-    collection: 'products',
-    where: {
-      isActive: { equals: true },
-      tags: { equals: 'new' },
-    },
-    limit: 4,
-    sort: '-createdAt',
-  })
-
-  const saleProducts = await payload.find({
-    collection: 'products',
-    where: {
-      isActive: { equals: true },
-      tags: { equals: 'sale' },
-    },
-    limit: 4,
-    sort: '-createdAt',
-  })
-
-  const categories = await payload.find({
-    collection: 'categories',
-    where: {
-      isActive: { equals: true },
-      parent: { exists: false },
-    },
-    sort: 'order',
-    limit: 8,
-  })
+  try {
+    const payload = await getPayloadClient()
+    ;[featuredProducts, newProducts, saleProducts, categories] = await Promise.all([
+      payload.find({ collection: 'products', where: { isActive: { equals: true }, tags: { equals: 'featured' } }, limit: 8, sort: '-createdAt' }),
+      payload.find({ collection: 'products', where: { isActive: { equals: true }, tags: { equals: 'new' } }, limit: 4, sort: '-createdAt' }),
+      payload.find({ collection: 'products', where: { isActive: { equals: true }, tags: { equals: 'sale' } }, limit: 4, sort: '-createdAt' }),
+      payload.find({ collection: 'categories', where: { isActive: { equals: true }, parent: { exists: false } }, sort: 'order', limit: 8 }),
+    ])
+  } catch {
+    // DB tables may not exist yet on first deploy
+  }
 
   return (
     <>

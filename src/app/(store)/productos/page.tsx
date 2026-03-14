@@ -22,41 +22,26 @@ type Props = {
 
 export default async function ProductosPage({ searchParams }: Props) {
   const params = await searchParams
-  const payload = await getPayloadClient()
   const page = Number(params.page) || 1
   const limit = 12
 
-  // Build where clause
-  const where: any = { isActive: { equals: true } }
+  let products = { docs: [], totalDocs: 0, totalPages: 0 } as any
+  let categories = { docs: [] } as any
 
-  if (params.tag) {
-    where.tags = { equals: params.tag }
+  try {
+    const payload = await getPayloadClient()
+    const where: any = { isActive: { equals: true } }
+    if (params.tag) where.tags = { equals: params.tag }
+    if (params.talla) where.petSizes = { equals: params.talla }
+    if (params.q) where.name = { like: params.q }
+
+    ;[products, categories] = await Promise.all([
+      payload.find({ collection: 'products', where, limit, page, sort: '-createdAt' }),
+      payload.find({ collection: 'categories', where: { isActive: { equals: true } }, sort: 'order', limit: 50 }),
+    ])
+  } catch {
+    // DB tables may not exist yet
   }
-
-  if (params.talla) {
-    where.petSizes = { equals: params.talla }
-  }
-
-  if (params.q) {
-    where.name = { like: params.q }
-  }
-
-  // Fetch products
-  const products = await payload.find({
-    collection: 'products',
-    where,
-    limit,
-    page,
-    sort: '-createdAt',
-  })
-
-  // Fetch categories for sidebar
-  const categories = await payload.find({
-    collection: 'categories',
-    where: { isActive: { equals: true } },
-    sort: 'order',
-    limit: 50,
-  })
 
   const petSizes = ['S', 'M', 'L', 'XL', 'XXL']
   const tagLabels: Record<string, string> = {

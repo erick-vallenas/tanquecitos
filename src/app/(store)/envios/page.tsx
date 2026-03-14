@@ -10,13 +10,18 @@ export const metadata: Metadata = {
 }
 
 export default async function EnviosPage() {
-  const payload = await getPayloadClient()
-  const zones = await payload.find({
-    collection: 'shipping-zones',
-    where: { isActive: { equals: true } },
-    sort: 'order',
-    limit: 50,
-  })
+  let zones = { docs: [] } as any
+  try {
+    const payload = await getPayloadClient()
+    zones = await payload.find({
+      collection: 'shipping-zones',
+      where: { isActive: { equals: true } },
+      sort: 'order',
+      limit: 50,
+    })
+  } catch {
+    // DB tables may not exist yet
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">

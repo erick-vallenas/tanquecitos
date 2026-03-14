@@ -11,13 +11,18 @@ export const metadata: Metadata = {
 }
 
 export default async function BlogPage() {
-  const payload = await getPayloadClient()
-  const posts = await payload.find({
-    collection: 'blog-posts',
-    where: { isPublished: { equals: true } },
-    sort: '-createdAt',
-    limit: 20,
-  })
+  let posts = { docs: [] } as any
+  try {
+    const payload = await getPayloadClient()
+    posts = await payload.find({
+      collection: 'blog-posts',
+      where: { isPublished: { equals: true } },
+      sort: '-createdAt',
+      limit: 20,
+    })
+  } catch {
+    // DB tables may not exist yet
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
