@@ -31,6 +31,7 @@ export default async function ProductosPage({ searchParams }: Props) {
   try {
     const payload = await getPayloadClient()
     const where: any = { isActive: { equals: true } }
+    if (params.categoria) where['categories.slug'] = { equals: params.categoria }
     if (params.tag) where.tags = { equals: params.tag }
     if (params.talla) where.petSizes = { equals: params.talla }
     if (params.q) where.name = { like: params.q }
